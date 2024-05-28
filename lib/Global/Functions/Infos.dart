@@ -13,6 +13,12 @@ const return_time = 0;
 
 const cancel_return_time = 0;
 
+List<String> regions = const [
+  'Beirut',
+  'Jnoub',
+  'Beqaa',
+];
+
 // WHEN CHANGING THE CONDITIONS, WE SHOULD CHANGE THEM IN THE ===> TRANSLATIONS FOLDERS AND IN THE BACKEND.  +  RIDER APP.
 List<String> conditions = const [
   'New',

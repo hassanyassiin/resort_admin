@@ -67,18 +67,22 @@ Widget C_Cupertino_Date({required TextEditingController tapped_controller}) {
       child: CupertinoTheme(
         data: CupertinoThemeData(
           textTheme: CupertinoTextThemeData(
-            dateTimePickerTextStyle:
-                TextStyle(color: Get_Black, fontSize: 2.h, height: 1.15),
+            dateTimePickerTextStyle: TextStyle(
+              color: Get_Black,
+              fontSize: 2.h,
+              height: 1.15,
+            ),
           ),
         ),
         child: CupertinoDatePicker(
           initialDateTime: tapped_controller.text.isNotEmpty
-              ? DateFormat("hh:mm aa").parse(tapped_controller.text)
-              : DateFormat("hh:mm aa").parse('12:00 AM'),
-          dateOrder: DatePickerDateOrder.dmy,
-          mode: CupertinoDatePickerMode.time,
+              ? DateFormat("dd MMMM yy").parse(tapped_controller.text)
+              : DateFormat("dd MMMM yy").parse(
+                  '${DateTime.now().day} ${DateFormat('MMMM').format(DateTime.now())} ${DateTime.now().year}'),
+          // dateOrder: DatePickerDateOrder.dmy,
+          mode: CupertinoDatePickerMode.date,
           onDateTimeChanged: (date) =>
-              tapped_controller.text = DateFormat("hh:mm aa").format(date),
+              tapped_controller.text = DateFormat("dd MMMM yyyy").format(date),
         ),
       ),
     ),
