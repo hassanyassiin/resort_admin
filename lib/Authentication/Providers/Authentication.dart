@@ -16,7 +16,7 @@ dynamic Get_REQUEST_URL({
   if (is_form_data) {
     return Uri.parse('http://$Get_Server_Url$url');
   } else {
-    return Uri.https(_server_url, url, arguments);
+    return Uri.http(_server_url, url, arguments);
   }
 }
 
