@@ -130,7 +130,6 @@ Future<XFile?> Crop_Image({
           99, // 99 because when making it 100 then the image will have much more size.
       aspectRatio: crop_aspect_ratio,
       uiSettings: [
-        // TODO CHECK IF THE DONE WORD IN THE ANDROID CHANGED TO ARABIC,.
         AndroidUiSettings(
           toolbarTitle: android_title,
           toolbarColor: Get_White,
