@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<Authentication>(
         builder: (context, auth, child) {
           return MaterialApp(
-            title: 'Brasmela',
+            title: 'Resort Admin',
             themeMode: ThemeMode.light,
             navigatorKey: navigator_key,
             debugShowCheckedModeBanner: false,
