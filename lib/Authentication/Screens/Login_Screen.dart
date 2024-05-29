@@ -47,8 +47,6 @@ class _Login_ScreenState extends State<Login_Screen> {
 
         if (mounted) {
           // To pop up the Loading screen
-          Navigator.pop(context);
-          // To pop up the Screen.
           return Navigator.pop(context);
         }
       } catch (error) {

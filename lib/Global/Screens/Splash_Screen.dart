@@ -8,6 +8,8 @@ class Splash_Screen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Get_White);
+    return Scaffold(
+      backgroundColor: Get_White,
+    );
   }
 }
