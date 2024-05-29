@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../../Global/Functions/Colors.dart';
 import '../../../Global/Widgets/AppBar.dart';
+import '../../../Global/Widgets/Failed.dart';
 
 import '../../../Categories/Providers/Category_Model.dart';
 
@@ -30,9 +31,36 @@ class _Product_ScreenState extends State<Product_Screen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Get_White,
-      appBar: C_AppBar(title: category.title),
+    return FutureBuilder(
+      future: !category.Get_Is_Get_Products_Success
+          ? category.Get_Products()
+          : null,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Loading_Scaffold(
+            appBar_title: category.title,
+            is_show_appBar_divider: true,
+            is_show_appBar_progress_indicator: true,
+          );
+        } else if (snapshot.hasError) {
+          return Failed_Scaffold(
+            appBar_title: category.title,
+            is_show_appBar_divider: true,
+            is_allow_refresh: true,
+            onRefresh_tap: () => setState(() {}),
+            is_show_appBar_progress_indicator: true,
+            error_message: snapshot.error.toString(),
+          );
+        } else {
+          return Scaffold(
+            backgroundColor: Get_White,
+            appBar: C_AppBar(
+              title: category.title,
+              is_show_divider: true,
+            ),
+          );
+        }
+      },
     );
   }
 }

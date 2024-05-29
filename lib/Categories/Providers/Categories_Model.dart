@@ -39,6 +39,7 @@ class Categories_Model extends ChangeNotifier {
           Category_Model(
             id: category['id'],
             title: category['title'],
+            products: [],
             photo: Get_PHOTO_URL(
               folder: 'category',
               image: category['photo'],
@@ -121,6 +122,7 @@ class Categories_Model extends ChangeNotifier {
             folder: 'category',
             image: response_data['photoUrl'],
           ),
+          products: [],
         ),
       );
 

@@ -43,6 +43,7 @@ class _Modify_Category_ScreenState extends State<Modify_Category_Screen> {
     id: 0,
     title: '',
     photo: '',
+    products: [],
   );
 
   @override
@@ -60,6 +61,7 @@ class _Modify_Category_ScreenState extends State<Modify_Category_Screen> {
           id: main_category!.id,
           title: main_category!.title,
           photo: main_category!.photo,
+          products: main_category!.products,
         );
       }
       _did_change = false;

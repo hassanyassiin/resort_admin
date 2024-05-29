@@ -10,16 +10,58 @@ import '../../../Authentication/Providers/Authentication.dart';
 import '../../../Global/Functions/Handle_Images.dart';
 import '../../../Global/Functions/Http_Exception.dart';
 
+import '../../../Products/Providers/Product_Model.dart';
+
 class Category_Model extends ChangeNotifier {
   final int id;
   String title;
   String photo;
+  List<Product_Model> products;
 
   Category_Model({
     required this.id,
     required this.title,
     required this.photo,
+    required this.products,
   });
+
+  var is_get_products_success = false;
+  get Get_Is_Get_Products_Success => is_get_products_success;
+
+  Future<void> Get_Products() async {
+    final url = Get_REQUEST_URL(url: 'admin-category/get-Products');
+
+    try {
+      final response = await http.get(url,
+          headers: <String, String>{'Authorization': 'Bearer $Get_Token'});
+
+      final response_data = json.decode(response.body);
+
+      if (response.statusCode != 200) {
+        throw C_Http_Exception(response_data['ErrorFound'] ?? '');
+      }
+
+      List<Product_Model> received_products = [];
+
+      for (var product in response_data['products']) {
+        received_products.add(
+          Product_Model(
+            id: product['id'],
+            title: product['title'],
+            photo: Get_PHOTO_URL(
+              folder: 'product',
+              image: product['photo'],
+            ),
+          ),
+        );
+      }
+
+      products = received_products;
+      is_get_products_success = true;
+    } catch (error) {
+      rethrow;
+    }
+  }
 
   Future<void> Edit_Category({
     XFile? new_photo,
