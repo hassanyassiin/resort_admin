@@ -21,8 +21,10 @@ import '../../../Schedule/Providers/Schedules_Model.dart';
 import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
 
 import '../../../Categories/Providers/Categories_Model.dart';
+import 'Products/Screens/Products_Screen.dart';
 import '../../../Categories/Screens/Modify_Category_Screen.dart';
-import '../../../Categories/Screens/Products_Screen.dart';
+
+import '../../../Products/Screens/Modify_Product_Screen.dart';
 
 final navigator_key = GlobalKey<NavigatorState>();
 
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               Guideline_Screen.routeName: (context) => const Guideline_Screen(),
+              Modify_Product_Screen.routeName: (context) =>
+                  const Modify_Product_Screen(),
               Product_Screen.routeName: (context) => const Product_Screen(),
               Modify_Category_Screen.routeName: (context) =>
                   const Modify_Category_Screen(),

@@ -15,7 +15,8 @@ import '../../../Categories/Providers/Categories_Model.dart';
 import '../../../Categories/Providers/Category_Model.dart';
 import '../../../Categories/Widgets/Category_Item.dart';
 import '../../../Categories/Screens/Modify_Category_Screen.dart';
-import '../../../Categories/Screens/Products_Screen.dart';
+
+import '../../../Products/Screens/Products_Screen.dart';
 
 class Guideline_Screen extends StatelessWidget {
   const Guideline_Screen({super.key});

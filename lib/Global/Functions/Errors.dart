@@ -33,6 +33,7 @@ const Map<String, String> _content_errors = {
 
 const List<String> toasts_error = [
   'Category Title is Taken!',
+  "Product Title is Taken!",
 ];
 
 bool Is_Error_In_Toast({required String title_error}) {
