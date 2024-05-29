@@ -63,6 +63,84 @@ class Category_Model extends ChangeNotifier {
     }
   }
 
+  Future<void> Delete_Product({required int product_id}) async {
+    final url = Get_REQUEST_URL(
+        url: '/admin-product/delete-Product',
+        arguments: {'productId': product_id.toString()});
+
+    try {
+      final response = await http.delete(
+        url,
+        headers: <String, String>{'Authorization': 'Bearer $Get_Token'},
+      );
+
+      final response_data = json.decode(response.body);
+
+      if (response.statusCode != 200) {
+        throw C_Http_Exception(response_data['ErrorFound'] ?? '');
+      }
+
+      products.removeWhere((product) => product.id == product_id);
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
+
+  Future<void> Create_Product({
+    required String title,
+    required XFile photo,
+  }) async {
+    final url = Get_REQUEST_URL(
+        is_form_data: true, url: "/admin-product/create-Product");
+
+    final image_type = Get_Image_Type(File(photo.path));
+
+    try {
+      var request = http.MultipartRequest('POST', url)
+        ..headers['Content-Type'] = "multipart/form-data; charset=UTF-8"
+        ..headers['Authorization'] = 'Bearer $Get_Token'
+        ..fields['categoryId'] = id.toString()
+        ..files.add(http.MultipartFile.fromString(
+          'title',
+          title,
+          contentType: MediaType('text', 'plain'),
+        ))
+        ..files.add(await http.MultipartFile.fromPath(
+          'photo',
+          photo.path,
+          contentType: MediaType('image', image_type),
+        ));
+
+      var stream_response = await request.send();
+      var response = await http.Response.fromStream(stream_response);
+
+      final response_data = json.decode(response.body) as Map<String, dynamic>;
+
+      if (response.statusCode != 200) {
+        throw C_Http_Exception(response_data['ErrorFound'] ?? '');
+      }
+
+      products.insert(
+        0,
+        Product_Model(
+          title: title,
+          id: response_data['id'],
+          photo: Get_PHOTO_URL(
+            folder: 'product',
+            image: response_data['photoUrl'],
+          ),
+        ),
+      );
+
+      notifyListeners();
+    } catch (error) {
+      rethrow;
+    }
+  }
+
   Future<void> Edit_Category({
     XFile? new_photo,
     required String new_title,

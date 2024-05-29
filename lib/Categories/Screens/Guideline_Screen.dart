@@ -3,20 +3,20 @@ import 'package:provider/provider.dart';
 
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../Global/Functions/Colors.dart';
-import '../../../Global/Widgets/AppBar.dart';
-import '../../../Global/Widgets/Failed.dart';
-import '../../../Global/Widgets/Texts.dart';
+import '../../../../Global/Functions/Colors.dart';
+import '../../../../Global/Widgets/AppBar.dart';
+import '../../../../Global/Widgets/Failed.dart';
+import '../../../../Global/Widgets/Texts.dart';
 
-import '../../../Global/Alert_Dialogs/Alert_Dialog_For_Confirmation.dart';
-import '../../../Global/Modal_Sheets/Show_Options_List_Tiles_Modal_Sheet.dart';
+import '../../../../Global/Alert_Dialogs/Alert_Dialog_For_Confirmation.dart';
+import '../../../../Global/Modal_Sheets/Show_Options_List_Tiles_Modal_Sheet.dart';
 
-import '../../../Categories/Providers/Categories_Model.dart';
-import '../../../Categories/Providers/Category_Model.dart';
-import '../../../Categories/Widgets/Category_Item.dart';
-import '../../../Categories/Screens/Modify_Category_Screen.dart';
+import '../../../../Categories/Providers/Categories_Model.dart';
+import '../../../../Categories/Providers/Category_Model.dart';
+import '../../../../Categories/Widgets/Category_Item.dart';
+import '../../../../Categories/Screens/Modify_Category_Screen.dart';
 
-import '../../../Products/Screens/Products_Screen.dart';
+import '../../../../Products/Screens/Products_Screen.dart';
 
 class Guideline_Screen extends StatelessWidget {
   const Guideline_Screen({super.key});

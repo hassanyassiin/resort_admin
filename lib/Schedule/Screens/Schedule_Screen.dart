@@ -2,19 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import '../../../Global/Functions/Colors.dart';
-import '../../../Global/Functions/Errors.dart';
+import '../../../../Global/Functions/Colors.dart';
+import '../../../../Global/Functions/Errors.dart';
 
-import '../../../Global/Widgets/Texts.dart';
-import '../../../Global/Widgets/Failed.dart';
-import '../../../Global/Widgets/AppBar.dart';
+import '../../../../Global/Widgets/Texts.dart';
+import '../../../../Global/Widgets/Failed.dart';
+import '../../../../Global/Widgets/AppBar.dart';
 
-import '../../../Global/Screens/Loading_Screen.dart';
+import '../../../../Global/Screens/Loading_Screen.dart';
 
-import '../../../Global/Alert_Dialogs/Alert_Dialog_For_Confirmation.dart';
+import '../../../../Global/Alert_Dialogs/Alert_Dialog_For_Confirmation.dart';
 
-import '../../../Schedule/Providers/Schedules_Model.dart';
-import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
+import '../../../../Schedule/Providers/Schedules_Model.dart';
+import '../../../../Schedule/Screens/Modify_Schedule_Screen.dart';
 
 class Schedule_Screen extends StatefulWidget {
   const Schedule_Screen({super.key});
