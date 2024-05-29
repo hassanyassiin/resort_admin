@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Authentication/Providers/Authentication.dart';
@@ -16,9 +15,14 @@ import '../../../Global/Photos/Carousel_Slider.dart';
 import '../../../Navigator_Screens/Chat_Screen.dart';
 import '../../../Navigator_Screens/Users_Screen.dart';
 import '../../../Navigator_Screens/Main_Screen.dart';
+import '../../../Navigator_Screens/Guideline_Screen.dart';
 
 import '../../../Schedule/Providers/Schedules_Model.dart';
 import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
+
+import '../../../Categories/Providers/Categories_Model.dart';
+import '../../../Categories/Screens/Modify_Category_Screen.dart';
+import '../../../Categories/Screens/Products_Screen.dart';
 
 final navigator_key = GlobalKey<NavigatorState>();
 
@@ -41,6 +45,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => Authentication()),
         ChangeNotifierProvider(create: (context) => Schedules_Model()),
+        ChangeNotifierProvider(create: (context) => Categories_Model()),
         ChangeNotifierProvider(create: (context) => Carousel_Index_Notifier()),
       ],
       child: Consumer<Authentication>(
@@ -65,6 +70,10 @@ class MyApp extends StatelessWidget {
               },
             ),
             routes: {
+              Guideline_Screen.routeName: (context) => const Guideline_Screen(),
+              Product_Screen.routeName: (context) => const Product_Screen(),
+              Modify_Category_Screen.routeName: (context) =>
+                  const Modify_Category_Screen(),
               Login_Screen.routeName: (context) => const Login_Screen(),
               Chat_Screen.routeName: (context) => const Chat_Screen(),
               Users_Screen.routeName: (context) => const Users_Screen(),

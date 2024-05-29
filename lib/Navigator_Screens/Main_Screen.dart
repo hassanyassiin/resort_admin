@@ -6,6 +6,7 @@ import '../../../Global/Functions/Colors.dart';
 import '../../../Navigator_Screens/Users_Screen.dart';
 import '../../../Navigator_Screens/Chat_Screen.dart';
 import '../../../Navigator_Screens/Schedule_Screen.dart';
+import '../../../Navigator_Screens/Guideline_Screen.dart';
 
 class Main_Screen extends StatefulWidget {
   const Main_Screen({super.key});
@@ -20,6 +21,7 @@ class _Main_ScreenState extends State<Main_Screen> {
 
   List<Widget> tabs = [
     const Users_Screen(),
+    const Guideline_Screen(),
     const Schedule_Screen(),
     const Chat_Screen(),
   ];
@@ -52,6 +54,11 @@ class _Main_ScreenState extends State<Main_Screen> {
                     padding: EdgeInsets.only(bottom: 0.3.h),
                     child: const Icon(Icons.people)),
                 label: 'Users'),
+            BottomNavigationBarItem(
+                icon: Padding(
+                    padding: EdgeInsets.only(bottom: 0.3.h),
+                    child: const Icon(Icons.rule)),
+                label: 'Guideline'),
             BottomNavigationBarItem(
                 icon: Padding(
                     padding: EdgeInsets.only(bottom: 0.3.h),

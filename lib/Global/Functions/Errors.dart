@@ -15,11 +15,6 @@ const Map<String, String> _title_errors = {
   // Images.
   'Picking Image': 'Can\'t upload images right now !',
   'Cropping Image': 'Can\'t crop image right now !',
-  // Product.
-  'Specifications are not valid!': 'Specifications are not valid',
-  // Others.
-  'Email is taken!': 'Email is taken!',
-  'Unable to sort': 'Unable to sort',
 };
 
 const Map<String, String> _content_errors = {
@@ -34,32 +29,10 @@ const Map<String, String> _content_errors = {
   // Images.
   'Can\'t upload images right now !': 'Please try again later.',
   'Can\'t crop image right now !': 'Please try again later.',
-  // Product.
-  'Specifications are not valid': 'Please try again later.',
-  // Others.
-  'Email is taken!':
-      'There\'s someone else using this email, please choose another one',
-  'Unable to sort': 'Unable to sort right now, please try again later!',
 };
 
 const List<String> toasts_error = [
-  'Sold Out.',
   'Category Title is Taken!',
-  'Collection Title is Taken!',
-  'You have no permission to sell for retails!',
-  'You have no permission to sell for wholesalers!',
-  'Product is not available any more!',
-  'Quantity is not available.',
-  'You have reached the limit',
-  'Could not find coupon',
-  'You Can\'t add coupon or points for this order',
-  'Order has been modified.',
-  'Some products has not enough quantity.',
-  'Could not cancel this order.',
-  'Could not return this order.',
-  'Invalid Email!',
-  'Could not cancel this return order.',
-  'Can\'t remove last product, Cancel order instead!',
 ];
 
 bool Is_Error_In_Toast({required String title_error}) {
