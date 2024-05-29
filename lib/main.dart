@@ -15,15 +15,15 @@ import '../../../Global/Photos/Carousel_Slider.dart';
 import '../../../Navigator_Screens/Chat_Screen.dart';
 import '../../../Navigator_Screens/Users_Screen.dart';
 import '../../../Navigator_Screens/Main_Screen.dart';
-import 'Categories/Screens/Guideline_Screen.dart';
 
 import '../../../Schedule/Providers/Schedules_Model.dart';
 import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
 
+import '../../../Categories/Screens/Guideline_Screen.dart';
 import '../../../Categories/Providers/Categories_Model.dart';
-import 'Products/Screens/Products_Screen.dart';
 import '../../../Categories/Screens/Modify_Category_Screen.dart';
 
+import '../../../Products/Screens/Products_Screen.dart';
 import '../../../Products/Screens/Modify_Product_Screen.dart';
 
 final navigator_key = GlobalKey<NavigatorState>();
