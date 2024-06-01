@@ -63,7 +63,9 @@ class MyApp extends StatelessWidget {
                 return auth.Is_Auth
                     ? const Main_Screen()
                     : FutureBuilder(
-                        future: !Get_Is_Try_Auto_Login ?   auth.Try_Auto_Login() : null,
+                        future: !Get_Is_Try_Auto_Login
+                            ? auth.Try_Auto_Login()
+                            : null,
                         builder: (context, authResultSnapshot) =>
                             authResultSnapshot.connectionState ==
                                     ConnectionState.waiting
