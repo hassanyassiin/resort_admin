@@ -126,7 +126,7 @@ String Get_Phone_Number_Without_Code(Country country, String phone_number) {
 String Format_Phone_Number(String number) {
   if (number.length != 11) {
     // Ensure the number has the correct length
-    return '';
+    return number;
   }
 
   // Split the number into parts
