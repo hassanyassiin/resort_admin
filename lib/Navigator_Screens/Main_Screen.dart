@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Global/Functions/Colors.dart';
 
-import '../../../Navigator_Screens/Chat_Screen.dart';
+import '../../../Chat/Screens/Chat_Screen.dart';
 
 import '../../../Schedule/Screens/Schedule_Screen.dart';
 

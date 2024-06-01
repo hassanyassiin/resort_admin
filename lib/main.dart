@@ -12,12 +12,14 @@ import '../../../Global/Screens/Splash_Screen.dart';
 
 import '../../../Global/Photos/Carousel_Slider.dart';
 
-import '../../../Navigator_Screens/Chat_Screen.dart';
-import 'Users/Screens/Users_Screen.dart';
 import '../../../Navigator_Screens/Main_Screen.dart';
 
 import '../../../Schedule/Providers/Schedules_Model.dart';
 import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
+
+import '../../../Users/Screens/Users_Screen.dart';
+
+import '../../../Chat/Screens/Chat_Screen.dart';
 
 import '../../../Categories/Screens/Guideline_Screen.dart';
 import '../../../Categories/Providers/Categories_Model.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../../Global/Functions/Colors.dart';
-import '../../Global/Widgets/AppBar.dart';
+import '../../../../Global/Functions/Colors.dart';
+import '../../../Global/Widgets/AppBar.dart';
 
 class Chat_Screen extends StatefulWidget {
   const Chat_Screen({super.key});
