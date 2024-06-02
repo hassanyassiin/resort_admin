@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -24,15 +25,45 @@ class User_Chat_Screen extends StatefulWidget {
 class _User_Chat_ScreenState extends State<User_Chat_Screen> {
   var is_first_request_success = false;
 
+  var _did_change = true;
+
   List<User_Chat_Model> user_chats = [];
+
+  late Timer myTimer;
+
+  @override
+  void didChangeDependencies() {
+    if (_did_change) {
+      myTimer = Timer.periodic(
+          const Duration(seconds: 1), (timer) => Fetch_User_Chats());
+
+      _did_change = false;
+    }
+    super.didChangeDependencies();
+  }
+
+  Future<void> Fetch_User_Chats() async {
+    if (is_first_request_success) {
+      try {
+        var received_user_chats = await Cd_Get_User_Chats();
+
+        setState(() {
+          user_chats = received_user_chats;
+        });
+      } catch (error) {
+        return;
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Get_Shein,
+      backgroundColor: Get_White,
       appBar: C_AppBar(
         title: 'Chats',
-        appBar_color: Get_Shein,
+        appBar_color: Get_White,
+        is_show_divider: true,
       ),
       body: FutureBuilder(
         future: !is_first_request_success
@@ -71,7 +102,7 @@ class _User_Chat_ScreenState extends State<User_Chat_Screen> {
                 : ListView.builder(
                     itemCount: user_chats.length,
                     padding:
-                        EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.5.h),
+                        EdgeInsets.symmetric(horizontal: 0.w, vertical: 1.5.h),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () => Navigator.pushNamed(
@@ -80,46 +111,76 @@ class _User_Chat_ScreenState extends State<User_Chat_Screen> {
                           arguments: user_chats[index],
                         ),
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 2.h),
                           padding: EdgeInsets.symmetric(
                               horizontal: 2.w, vertical: 1.5.h),
                           decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                              width: 0.1,
+                              color: Get_Grey,
+                            )),
                             color: Get_White,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(1.5.h)),
                           ),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              Circle_Network_Image(
-                                width: 12,
-                                image: user_chats[index].user_pic,
-                              ),
-                              SizedBox(width: 2.w),
-                              Flexible(
-                                child: Column(
+                              SizedBox(
+                                width: 70.w,
+                                child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: <Widget>[
-                                    C_Text(
-                                      font_size: 1.7,
-                                      text: user_chats[index].user_name,
+                                    Circle_Network_Image(
+                                      width: 12,
+                                      image: user_chats[index].user_pic,
                                     ),
-                                    SizedBox(height: 1.h),
-                                    C_Text(
-                                      font_size: 1.5,
-                                      weight: '500',
-                                      color: Get_Grey,
-                                      text: user_chats[index].chats.isNotEmpty
-                                          ? user_chats[index].chats.last.text
-                                          : 'start a new message...',
+                                    SizedBox(width: 2.w),
+                                    Flexible(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: <Widget>[
+                                          C_Text(
+                                              font_size: 1.7,
+                                              text: user_chats[index].user_name,
+                                              max_lines: 1),
+                                          SizedBox(height: 1.h),
+                                          C_Text(
+                                            font_size: 1.5,
+                                            weight: '500',
+                                            color: Get_Grey,
+                                            max_lines: 1,
+                                            text:
+                                                user_chats[index].last_message,
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
+                              if (user_chats[index].is_refresh)
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 2.w, vertical: 0.5.h),
+                                  decoration: BoxDecoration(
+                                    color: Get_Primary,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(0.5.h)),
+                                  ),
+                                  child: C_Text(
+                                    weight: '500',
+                                    text: 'New message',
+                                    font_size: 1.2,
+                                    color: Get_White,
+                                  ),
+                                ),
                             ],
                           ),
                         ),
