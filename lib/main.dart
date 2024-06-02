@@ -20,6 +20,7 @@ import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
 import '../../../Users/Screens/Users_Screen.dart';
 
 import '../../../Chat/Screens/User_Chat_Screen.dart';
+import '../../../Chat/Screens/Chat_Detailed_Screen.dart';
 
 import '../../../Categories/Screens/Guideline_Screen.dart';
 import '../../../Categories/Providers/Categories_Model.dart';
@@ -77,6 +78,7 @@ class MyApp extends StatelessWidget {
             ),
             routes: {
               Guideline_Screen.routeName: (context) => const Guideline_Screen(),
+              Chat_Detailed_Screen.routeName: (context) => const Chat_Detailed_Screen(),
               Modify_Product_Screen.routeName: (context) =>
                   const Modify_Product_Screen(),
               Product_Screen.routeName: (context) => const Product_Screen(),

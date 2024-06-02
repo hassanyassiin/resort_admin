@@ -10,6 +10,7 @@ import '../../../Global/Widgets/Texts.dart';
 import '../../../Global/Photos/Network_Image.dart';
 
 import '../../../Chat/Providers/User_Chat_Model.dart';
+import '../../../Chat/Screens/Chat_Detailed_Screen.dart';
 import '../../../Chat/Continued_Providers/Get_User_Chats.dart';
 
 class User_Chat_Screen extends StatefulWidget {
@@ -73,7 +74,11 @@ class _User_Chat_ScreenState extends State<User_Chat_Screen> {
                         EdgeInsets.symmetric(horizontal: 2.w, vertical: 1.5.h),
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () => Navigator.pushNamed(
+                          context,
+                          Chat_Detailed_Screen.routeName,
+                          arguments: user_chats[index],
+                        ),
                         child: Container(
                           margin: EdgeInsets.only(bottom: 2.h),
                           padding: EdgeInsets.symmetric(
