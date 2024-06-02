@@ -28,7 +28,11 @@ Future<List<Chat_Model>> Cd_Get_Chats({
 
     for (var chat in response_data['chats']) {
       received_chats.add(
-        Chat_Model(id: chat['id'], text: chat['text']),
+        Chat_Model(
+          id: chat['id'],
+          text: chat['text'],
+          is_admin: chat['isAdmin'],
+        ),
       );
     }
 

@@ -4,14 +4,16 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Global/Functions/Colors.dart';
 
-import '../../../Global/Widgets/Texts.dart';
 import '../../../Global/Widgets/Failed.dart';
 import '../../../Global/Widgets/AppBar.dart';
+import '../../../Global/Widgets/Toasts.dart';
 import '../../../Global/Widgets/TextFormField.dart';
 
 import '../../../Chat/Providers/Chat_Model.dart';
 import '../../../Chat/Providers/User_Chat_Model.dart';
+import '../../../Chat/Widgets/Message.dart';
 import '../../../Chat/Continued_Providers/Get_Chats.dart';
+import '../../../Chat/Continued_Providers/Send_Message.dart';
 
 class Chat_Detailed_Screen extends StatefulWidget {
   const Chat_Detailed_Screen({super.key});
@@ -23,6 +25,7 @@ class Chat_Detailed_Screen extends StatefulWidget {
 
 class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
   final controller = TextEditingController();
+  final ScrollController _scroll_controller = ScrollController();
 
   var _did_change = true;
   late User_Chat_Model user_chat;
@@ -33,14 +36,18 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
   late Timer myTimer;
 
+  var is_message_empty = true;
+
   @override
   void didChangeDependencies() {
     if (_did_change) {
       user_chat = ModalRoute.of(context)!.settings.arguments as User_Chat_Model;
       chats = user_chat.chats;
 
-      myTimer =
-          Timer.periodic(const Duration(seconds: 1), (timer) => Fetch_Chats());
+      controller.addListener(Listener);
+
+      myTimer = Timer.periodic(
+          const Duration(seconds: 1), (timer) => Fetch_Chats());
 
       _did_change = false;
     }
@@ -51,7 +58,56 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
   void dispose() {
     myTimer.cancel();
     controller.dispose();
+    _scroll_controller.dispose();
+    controller.removeListener(Listener);
     super.dispose();
+  }
+
+  void Listener() {
+    if (controller.text.trim().isEmpty) {
+      setState(() {
+        is_message_empty = true;
+      });
+    } else {
+      setState(() {
+        is_message_empty = false;
+      });
+    }
+  }
+
+  Future<void> Send_Message() async {
+    _scroll_controller.animateTo(
+      _scroll_controller.position.maxScrollExtent,
+      duration: Duration.zero,
+      curve: Curves.easeIn,
+    );
+
+    if (controller.text.isEmpty) {
+      return;
+    }
+
+    try {
+      await Cd_Send_Message(
+        text: controller.text,
+        user_chat_id: user_chat.id,
+      );
+
+      if (mounted) {
+        setState(() {
+          chats.add(
+            Chat_Model(id: -1, text: controller.text, is_admin: true),
+          );
+          controller.clear();
+        });
+      }
+    } catch (error) {
+      if (mounted) {
+        return Show_Text_Toast(
+          context: context,
+          text: 'Something went wrong',
+        );
+      }
+    }
   }
 
   Future<void> Fetch_Chats() async {
@@ -61,6 +117,11 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
         setState(() {
           chats = received_chats;
+          // _scroll_controller.animateTo(
+          //   0.0,
+          //   curve: Curves.easeOut,
+          //   duration: const Duration(milliseconds: 300),
+          // );
         });
       } catch (error) {
         return;
@@ -95,61 +156,67 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
           return GestureDetector(
             onTap: () => FocusManager.instance.primaryFocus!.unfocus(),
             child: Scaffold(
+              resizeToAvoidBottomInset: true,
               backgroundColor: Get_White,
               appBar: C_AppBar(
                 title: user_chat.user_name,
                 is_show_divider: true,
               ),
               body: ListView.builder(
+                controller: _scroll_controller,
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
                 itemCount: chats.length,
                 itemBuilder: (context, index) {
-                  return C_Text(
-                    text: chats[index].text,
-                    font_size: 1.5,
-                  );
+                  return Message(chat: chats[index]);
                 },
               ),
-              bottomSheet: Container(
-                color: Get_White,
-                margin: EdgeInsets.only(bottom: 2.h),
-                padding: EdgeInsets.only(bottom: 2.h, left: 2.w, right: 2.w),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Expanded(
-                      child: C_TextFormField(
-                        controller: controller,
-                        vertical_content_padding: 1.2,
-                        hint_text: 'Start a message..',
-                        hint_text_size: 1.75,
+              bottomNavigationBar: SafeArea(
+                child: Container(
+                  color: Get_White,
+                  padding: EdgeInsets.only(
+                    left: 2.w,
+                    right: 2.w,
+                    top: 1.h,
+                    bottom: MediaQuery.of(context).viewInsets.bottom + 2.h,
+                  ),
+                  // padding: EdgeInsets.only(bottom: 2.h, left: 2.w, right: 2.w),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Expanded(
+                        child: C_TextFormField(
+                          controller: controller,
+                          vertical_content_padding: 1.2,
+                          hint_text: 'Start a message..',
+                          hint_text_size: 1.75,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      width: 14.w,
-                      child: GestureDetector(
-                        onTap: () {},
-                        child: Container(
-                          height: 4.h,
-                          width: double.infinity,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 2.w, vertical: 1.h),
-                          decoration: BoxDecoration(
-                            color: Get_Primary,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            size: 2.h,
-                            color: Get_White,
-                            Icons.arrow_forward_ios_rounded,
+                      SizedBox(
+                        width: 14.w,
+                        child: GestureDetector(
+                          onTap: is_message_empty ? null : Send_Message,
+                          child: Container(
+                            height: 4.h,
+                            width: double.infinity,
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 2.w, vertical: 1.h),
+                            decoration: BoxDecoration(
+                              color: is_message_empty ? Get_Grey : Get_Primary,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              size: 2.h,
+                              color: Get_White,
+                              Icons.arrow_forward_ios_rounded,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
