@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../Global/Functions/Colors.dart';
+import '../../../Global/Functions/Colors.dart';
 import '../../../Global/Widgets/AppBar.dart';
 
 class Chat_Screen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _Chat_ScreenState extends State<Chat_Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Get_White,
-      appBar: C_AppBar(),
+      appBar: C_AppBar(title: 'Chat'),
     );
   }
 }
