@@ -19,7 +19,7 @@ import '../../../Schedule/Screens/Modify_Schedule_Screen.dart';
 
 import '../../../Users/Screens/Users_Screen.dart';
 
-import '../../../Chat/Screens/Chat_Screen.dart';
+import '../../../Chat/Screens/User_Chat_Screen.dart';
 
 import '../../../Categories/Screens/Guideline_Screen.dart';
 import '../../../Categories/Providers/Categories_Model.dart';
@@ -83,7 +83,7 @@ class MyApp extends StatelessWidget {
               Modify_Category_Screen.routeName: (context) =>
                   const Modify_Category_Screen(),
               Login_Screen.routeName: (context) => const Login_Screen(),
-              Chat_Screen.routeName: (context) => const Chat_Screen(),
+              User_Chat_Screen.routeName: (context) => const User_Chat_Screen(),
               Users_Screen.routeName: (context) => const Users_Screen(),
               Modify_Schedule_Screen.routeName: (context) =>
                   const Modify_Schedule_Screen(),

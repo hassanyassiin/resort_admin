@@ -3,7 +3,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../../../Global/Functions/Colors.dart';
 
-import '../../../Chat/Screens/Chat_Screen.dart';
+import '../../../Chat/Screens/User_Chat_Screen.dart';
 
 import '../../../Schedule/Screens/Schedule_Screen.dart';
 
@@ -26,7 +26,7 @@ class _Main_ScreenState extends State<Main_Screen> {
     const Users_Screen(),
     const Guideline_Screen(),
     const Schedule_Screen(),
-    const Chat_Screen(),
+    const User_Chat_Screen(),
   ];
 
   @override
