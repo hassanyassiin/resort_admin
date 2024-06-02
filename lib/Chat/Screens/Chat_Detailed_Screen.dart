@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
@@ -6,7 +7,6 @@ import '../../../Global/Functions/Colors.dart';
 
 import '../../../Global/Widgets/Failed.dart';
 import '../../../Global/Widgets/AppBar.dart';
-import '../../../Global/Widgets/Toasts.dart';
 import '../../../Global/Widgets/TextFormField.dart';
 
 import '../../../Chat/Providers/Chat_Model.dart';
@@ -25,7 +25,6 @@ class Chat_Detailed_Screen extends StatefulWidget {
 
 class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
   final controller = TextEditingController();
-  final ScrollController _scroll_controller = ScrollController();
 
   var _did_change = true;
   late User_Chat_Model user_chat;
@@ -38,6 +37,8 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
   var is_message_empty = true;
 
+  var is_loading = false;
+
   @override
   void didChangeDependencies() {
     if (_did_change) {
@@ -46,8 +47,8 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
       controller.addListener(Listener);
 
-      myTimer = Timer.periodic(
-          const Duration(seconds: 1), (timer) => Fetch_Chats());
+      myTimer =
+          Timer.periodic(const Duration(seconds: 1), (timer) => Fetch_Chats());
 
       _did_change = false;
     }
@@ -58,7 +59,6 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
   void dispose() {
     myTimer.cancel();
     controller.dispose();
-    _scroll_controller.dispose();
     controller.removeListener(Listener);
     super.dispose();
   }
@@ -76,17 +76,15 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
   }
 
   Future<void> Send_Message() async {
-    _scroll_controller.animateTo(
-      _scroll_controller.position.maxScrollExtent,
-      duration: Duration.zero,
-      curve: Curves.easeIn,
-    );
-
     if (controller.text.isEmpty) {
       return;
     }
 
     try {
+      setState(() {
+        is_loading = true;
+      });
+
       await Cd_Send_Message(
         text: controller.text,
         user_chat_id: user_chat.id,
@@ -94,6 +92,7 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
       if (mounted) {
         setState(() {
+          is_loading = false;
           chats.add(
             Chat_Model(id: -1, text: controller.text, is_admin: true),
           );
@@ -102,10 +101,9 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
       }
     } catch (error) {
       if (mounted) {
-        return Show_Text_Toast(
-          context: context,
-          text: 'Something went wrong',
-        );
+        setState(() {
+          is_loading = false;
+        });
       }
     }
   }
@@ -117,11 +115,6 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
 
         setState(() {
           chats = received_chats;
-          // _scroll_controller.animateTo(
-          //   0.0,
-          //   curve: Curves.easeOut,
-          //   duration: const Duration(milliseconds: 300),
-          // );
         });
       } catch (error) {
         return;
@@ -163,7 +156,6 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
                 is_show_divider: true,
               ),
               body: ListView.builder(
-                controller: _scroll_controller,
                 padding: EdgeInsets.symmetric(horizontal: 2.w, vertical: 2.h),
                 itemCount: chats.length,
                 itemBuilder: (context, index) {
@@ -196,7 +188,9 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
                       SizedBox(
                         width: 14.w,
                         child: GestureDetector(
-                          onTap: is_message_empty ? null : Send_Message,
+                          onTap: is_message_empty || is_loading
+                              ? null
+                              : Send_Message,
                           child: Container(
                             height: 4.h,
                             width: double.infinity,
@@ -207,11 +201,16 @@ class _Chat_Detailed_ScreenState extends State<Chat_Detailed_Screen> {
                               color: is_message_empty ? Get_Grey : Get_Primary,
                               shape: BoxShape.circle,
                             ),
-                            child: Icon(
-                              size: 2.h,
-                              color: Get_White,
-                              Icons.arrow_forward_ios_rounded,
-                            ),
+                            child: is_loading
+                                ? CupertinoActivityIndicator(
+                                    radius: 1.2.h,
+                                    color: Get_Black,
+                                  )
+                                : Icon(
+                                    size: 2.h,
+                                    color: Get_White,
+                                    Icons.arrow_forward_ios_rounded,
+                                  ),
                           ),
                         ),
                       ),
